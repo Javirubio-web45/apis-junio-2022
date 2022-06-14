@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "b7ba7faf-eedc-41e5-b5ac-d7dd29418ba1",
+		"name": "Practica 6 - Stripe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21334713"
+	},
+	"item": [
+		{
+			"name": "Test 1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sk_test_8Ek0AIAk0fyvUyJiDbG5ZOIN",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic c2tfdGVzdF84RWswQUlBazBmeXZVeUppRGJHNVpPSU46\n",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://api.stripe.com/v1/customers?email=corporate@way2automation.com&name=Raman Arora&description=This is a new test customer\n",
+					"protocol": "https",
+					"host": [
+						"api",
+						"stripe",
+						"com"
+					],
+					"path": [
+						"v1",
+						"customers"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "corporate@way2automation.com"
+						},
+						{
+							"key": "name",
+							"value": "Raman Arora"
+						},
+						{
+							"key": "description",
+							"value": "This is a new test customer\n"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.stripe.com/v1/balance",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v1/balance",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v1",
+						"balance"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

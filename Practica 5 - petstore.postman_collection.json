@@ -1,0 +1,393 @@
+{
+	"info": {
+		"_postman_id": "3a73762f-7291-4ee7-92be-52a9da28a8fd",
+		"name": "Practica 5 - petstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21334713"
+	},
+	"item": [
+		{
+			"name": "POST - create pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*\r",
+							"var responJson = pm.response.json()\r",
+							"console.log(responJson)\r",
+							"pm.environment.set(\"petId\", responJson.id)\r",
+							"*/\r",
+							"\r",
+							"let messageString = pm.response.text().split(':')[1];\r",
+							"console.log(messageString.split(',')[0])\r",
+							"pm.environment.set(\"id\",messageString.split(',')[0]);\r",
+							"\r",
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 0,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"Ciclon\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{url_base}}/v2/pet",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - get pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"const responJson = pm.response.json()\r",
+							"console.log(\"Pet ID: \"+ responJson.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{url_base}}/v2/pet/{{id}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - upload image error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(405)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"console.log(pm.response.text())\r",
+							"\r",
+							"pm.test(\"Validar que dentro de la respuesta esta la palabra unknown\", function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"unknown\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v2/pet/2/uploadImage",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"2",
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - upload image error mesage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(415)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"console.log(pm.response.text())\r",
+							"\r",
+							"pm.test(\"Validar que dentro de la respuesta esta la palabra unknown\", function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"unknown\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v2/pet/2/uploadImage",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"2",
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - upload image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"console.log(pm.response.text())\r",
+							"\r",
+							"pm.test(\"Validar que dentro de la respuesta esta la palabra unknown\", function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"unknown\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/USER/Downloads/rottweiler-cachorro.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url_base}}/v2/pet/{{id}}/uploadImage",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{id}}",
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - update pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"var responseJson = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Validar que el nombre se haya actualizado a 'Toby'\", function(){\r",
+							"    pm.expect(responseJson.name).to.eql('Toby')\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{petId}},\r\n    \"category\": {\r\n        \"id\": 0,\r\n        \"name\": \"string\"\r\n    },\r\n    \"name\": \"Toby\",\r\n    \"photoUrls\": [\r\n        \"string\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": 0,\r\n            \"name\": \"string\"\r\n        }\r\n    ],\r\n    \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL - Delete pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v2/pet/{{id}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Validar que se haya borrado la mascota",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar que no se encuentre el ID de la mascota\", function(){\r",
+							"    pm.response.to.have.status(404)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{url_base}}/v2/pet/{{id}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

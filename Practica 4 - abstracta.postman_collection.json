@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "44459576-9fd4-48a1-893f-b3205241730a",
+		"name": "Practica 4 - abstracta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21334713"
+	},
+	"item": [
+		{
+			"name": "GET - IP information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que dentro de la respuesta esta la palabra ip_address\", function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"ip_address\")\r",
+							"})\r",
+							"\r",
+							"const responseJson = pm.response.json()\r",
+							"console.log(responseJson.city)\r",
+							"\r",
+							"pm.test(\"Validar que la ciudad es Guadalajara\", function(){\r",
+							"    pm.expect(responseJson.city).to.include('Guadalajara')\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v1/?api_key={{api_key}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - IP information negativa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(401)\r",
+							"})\r",
+							"\r",
+							"let responseJson = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Prueba negativa, Validar mensaje 'Invalid API key provided.'\", function(){\r",
+							"    pm.expect(responseJson.error.message).to.include('Invalid API key provided.')\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v1/?api_key={{api_falsa}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{api_falsa}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - api_adsress location mex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que dentro de la respuesta esta la palabra ip_address\", function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"ip_address\")\r",
+							"})\r",
+							"\r",
+							"const responseJson = pm.response.json()\r",
+							"console.log(responseJson.city)\r",
+							"\r",
+							"pm.test(\"Validar que la ciudad es Guadalajara\", function(){\r",
+							"    pm.expect(responseJson.city).to.include('Tultitlan de Mariano Escobedo')\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar el campo region responde con un string\", function(){\r",
+							"    pm.expect(responseJson.region).to.be.a('string')\r",
+							"    pm.expect(responseJson.region).to.eql('México')\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que los caracteres del campo ip_address es igual a 14\", function(){\r",
+							"    pm.expect(responseJson.ip_address).to.have.length(14)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar ancho y tipo de dato de city_genome_id\", function(){\r",
+							"    pm.expect(responseJson.city_geoname_id).to.be.a('number')\r",
+							"})\r",
+							"\r",
+							"//console.log(typeof(responseJson.city_geoname_id))\r",
+							"\r",
+							"pm.test(\"Validar los codigos de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202])\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v1/?api_key={{api_key}}&ip_address=201.141.27.205",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{api_key}}"
+						},
+						{
+							"key": "ip_address",
+							"value": "201.141.27.205"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - api_adsress location mex negativa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseJson = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Prueba negativa, validar mensaje 'Invalid IP Address'\", function(){\r",
+							"    pm.expect(responseJson.error.details.ip_address).to.include('Invalid IP Address.')\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/v1/?api_key={{api_key}}&ip_address=201.141..205",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{api_key}}"
+						},
+						{
+							"key": "ip_address",
+							"value": "201.141..205"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Validar telefono",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar que el tipo de respuesta sea 400\", function(){\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500)\r",
+							"})\r",
+							"\r",
+							"const responseJson = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Prueba negativa, telefono con 10 digitos\", function(){\r",
+							"    pm.expect(responseJson.phone).to.have.length(10)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://phonevalidation.abstractapi.com/v1/?api_key=fd5375a7b73649e2a22d830319356952&phone=525589577956",
+					"protocol": "https",
+					"host": [
+						"phonevalidation",
+						"abstractapi",
+						"com"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "fd5375a7b73649e2a22d830319356952"
+						},
+						{
+							"key": "phone",
+							"value": "525589577956"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Validar telefono negativa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseJson = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Prueba negativa, telefono sin lada no debe ser valido\", function(){\r",
+							"    pm.expect(responseJson.valid).to.be.equal(false)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://phonevalidation.abstractapi.com/v1/?api_key=fd5375a7b73649e2a22d830319356952&phone=5589577956",
+					"protocol": "https",
+					"host": [
+						"phonevalidation",
+						"abstractapi",
+						"com"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "fd5375a7b73649e2a22d830319356952"
+						},
+						{
+							"key": "phone",
+							"value": "5589577956"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Validar email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Prueba negativa, codigo de respuesta 201\", function(){\r",
+							"    pm.response.to.have.status(201)\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://emailvalidation.abstractapi.com/v1/?api_key=aa0b674000bf43f4865c82dc4384e10f&email=javirubio_45@hotmail.com",
+					"protocol": "https",
+					"host": [
+						"emailvalidation",
+						"abstractapi",
+						"com"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "aa0b674000bf43f4865c82dc4384e10f"
+						},
+						{
+							"key": "email",
+							"value": "javirubio_45@hotmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Validar email negativa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseJson = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Prueba negativa, correo debe ser 'Undeliverable'\", function(){\r",
+							"    pm.expect(responseJson.deliverability).to.be.equal(\"UNDELIVERABLE\")\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://emailvalidation.abstractapi.com/v1/?api_key=aa0b674000bf43f4865c82dc4384e10f&email=correo",
+					"protocol": "https",
+					"host": [
+						"emailvalidation",
+						"abstractapi",
+						"com"
+					],
+					"path": [
+						"v1",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "aa0b674000bf43f4865c82dc4384e10f"
+						},
+						{
+							"key": "email",
+							"value": "correo"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
