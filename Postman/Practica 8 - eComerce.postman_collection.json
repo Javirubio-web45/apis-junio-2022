@@ -161,6 +161,40 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"Prescript - obteniendo variables\")\r",
+							"\r",
+							"var email =  pm.environment.get('email')\r",
+							"var pass = pm.environment.get('password')\r",
+							"var url = pm.environment.get('url_base')\r",
+							"url = url + '/nga/api/v1.1/private/accounts?lang=es'\r",
+							"\r",
+							"let requestToken = {\r",
+							"    method: \"POST\",\r",
+							"    url: url,\r",
+							"    auth: {\r",
+							"        type: \"basic\",\r",
+							"        basic: [\r",
+							"            {key: \"username\", value: email},\r",
+							"            {key: \"password\", value: pass}\r",
+							"        ]\r",
+							"    },\r",
+							"    body: {\r",
+							"        \"account\":\r",
+							"            {\"email\": email}\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(requestToken, function (err, response) {\r",
+							"    console.log(response.json());\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"protocolProfileBehavior": {
@@ -334,6 +368,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"/*\r",
 							"var uuid = pm.environment.get('uuid')\r",
 							"var token = pm.environment.get('accessToken')\r",
 							"\r",
@@ -343,7 +378,49 @@
 							"pm.environment.set('token2UP', encoded)\r",
 							"\r",
 							"console.log(encoded)\r",
-							""
+							"*/\r",
+							"\r",
+							"let responseJson = pm.response.json()\r",
+							"\r",
+							"//console.log(responseJson.data.ad.ad_id)\r",
+							"pm.environment.set('ad_id', responseJson.data.ad.ad_id)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let getTokenRequest = {\r",
+							"    method: 'POST',\r",
+							"    url: 'https://webapi.segundamano.mx/nga/api/v1.1/private/accounts?lang=es',\r",
+							"    header: {\r",
+							"        Authorization: 'Basic dGVzdDQ1X3FhQG1haWxpbmF0b3IuY29tOjEyMzQ1Ng=='\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"\r",
+							"pm.sendRequest(getTokenRequest, function (err, response) {\r",
+							"    console.log(response.json());\r",
+							"    var responseJson = response.json()\r",
+							"    console.log(responseJson.access_token)\r",
+							"\r",
+							"    pm.environment.set(\"accessToken\", responseJson.access_token)\r",
+							"    //Poner en una variable el accessToken que se genero aqui\r",
+							"});\r",
+							"\r",
+							"var uuid = pm.environment.get('uuid')\r",
+							"var token = pm.environment.get('accessToken')\r",
+							"\r",
+							"console.log(\"TokenGet:\", token)\r",
+							"\r",
+							"var preencode = (uuid).concat(':',(token));\r",
+							"\r",
+							"var encoded = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(preencode))\r",
+							"pm.environment.set('token2UP', encoded)\r",
+							"\r",
+							"console.log(encoded)"
 						],
 						"type": "text/javascript"
 					}
@@ -398,6 +475,90 @@
 						"accounts",
 						"{{uuid}}",
 						"up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar anuncio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var uuid = pm.environment.get('uuid')\r",
+							"var token = pm.environment.get('accessToken')\r",
+							"\r",
+							"var preencode = (uuid).concat(':',(token));\r",
+							"\r",
+							"var encoded = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(preencode))\r",
+							"pm.environment.set('token2UP', encoded)\r",
+							"\r",
+							"console.log(encoded)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{token2UP}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					},
+					{
+						"key": "Origin",
+						"value": "https://www.segundamano.mx",
+						"type": "text"
+					},
+					{
+						"key": "x-source",
+						"value": "PHOENIX_DESKTOP",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"category\":\"8121\",\"subject\":\"Mudanzas y fletes economicos a toda la republica\",\"body\":\"Mudanzas y feltes a toda la republica(prueba no real)\",\"region\":\"4\",\"municipality\":\"86179\",\"area\":\"142027\",\"price\":\"1\",\"phone_hidden\":\"false\",\"show_phone\":\"true\",\"contact_phone\":\"{{telefono}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{url_base}}/accounts/{{uuid}}/up/{{ad_id}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"accounts",
+						"{{uuid}}",
+						"up",
+						"{{ad_id}}"
 					]
 				}
 			},
@@ -461,7 +622,9 @@
 						"exec": [
 							"var responseJson = pm.response.json()\r",
 							"\r",
-							"console.log(responseJson)"
+							"console.log(responseJson)\r",
+							"\r",
+							"pm.environment.set('addressID', responseJson.addressID)"
 						],
 						"type": "text/javascript"
 					}
@@ -562,6 +725,268 @@
 						"addresses",
 						"v1",
 						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar direccion",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{token2UP}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "contact",
+							"value": "Doña martha",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{url_base}}/addresses/v1/modify/{{addressID}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"addresses",
+						"v1",
+						"modify",
+						"{{addressID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar direccion",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{token2UP}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url_base}}/addresses/v1/delete/{{addressID}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"addresses",
+						"v1",
+						"delete",
+						"{{addressID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar anuncio",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let getTokenRequest = {\r",
+							"    method: 'POST',\r",
+							"    url: 'https://webapi.segundamano.mx/nga/api/v1.1/private/accounts?lang=es',\r",
+							"    header: {\r",
+							"        Authorization: 'Basic dGVzdDQ1X3FhQG1haWxpbmF0b3IuY29tOjEyMzQ1Ng=='\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(getTokenRequest, function (err, response) {\r",
+							"    console.log(response.json());\r",
+							"    var responseJson = response.json()\r",
+							"    console.log(responseJson.access_token)\r",
+							"\r",
+							"    pm.environment.set(\"accessToken\", responseJson.access_token)\r",
+							"    //Poner en una variable el accessToken que se genero aqui\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "tag:scmcoord.com,2013:api {{accessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"delete_reason\":{\"code\":\"5\"}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{url_base}}/nga/api/v1{{accountId}}/klfst/{{ad_id}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"nga",
+						"api",
+						"v1{{accountId}}",
+						"klfst",
+						"{{ad_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener el balance del usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{url_base}}/credits/v1{{accountId}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"credits",
+						"v1{{accountId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener el detalle del balance",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{token2UP}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{url_base}}/tokens/v1/public/balance/detail/{{uuid}}",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"tokens",
+						"v1",
+						"public",
+						"balance",
+						"detail",
+						"{{uuid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar datos del usuario",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let getTokenRequest = {\r",
+							"    method: 'POST',\r",
+							"    url: 'https://webapi.segundamano.mx/nga/api/v1.1/private/accounts?lang=es',\r",
+							"    header: {\r",
+							"        Authorization: 'Basic dGVzdDQ1X3FhQG1haWxpbmF0b3IuY29tOjEyMzQ1Ng=='\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.sendRequest(getTokenRequest, function (err, response) {\r",
+							"    console.log(response.json());\r",
+							"    var responseJson = response.json()\r",
+							"    console.log(responseJson.access_token)\r",
+							"\r",
+							"    pm.environment.set(\"accessToken\", responseJson.access_token)\r",
+							"    //Poner en una variable el accessToken que se genero aqui\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "tag:scmcoord.com,2013:api {{accessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"account\":{\"name\":\"Laureano Gomez Montes\",\"phone\":\"3319497849\",\"locations\":[{\"code\":\"8\",\"key\":\"region\",\"label\":\"Colima\",\"locations\":[{\"code\":\"104\",\"key\":\"municipality\",\"label\":\"Comala\"}]}],\"professional\":false,\"phone_hidden\":false}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{url_base}}/nga/api/v1{{accountId}}?lang=es",
+					"protocol": "https",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"nga",
+						"api",
+						"v1{{accountId}}"
+					],
+					"query": [
+						{
+							"key": "lang",
+							"value": "es"
+						}
 					]
 				}
 			},

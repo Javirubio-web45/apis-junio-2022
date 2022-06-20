@@ -13,6 +13,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"const responseJson = pm.response.json()\r",
+							"\r",
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
 							"    pm.response.to.have.status(200)\r",
 							"    pm.expect(pm.response.code).to.eql(200)\r",
@@ -22,10 +24,8 @@
 							"    pm.expect(pm.response.text()).to.include(\"ip_address\")\r",
 							"})\r",
 							"\r",
-							"const responseJson = pm.response.json()\r",
-							"console.log(responseJson.city)\r",
-							"\r",
 							"pm.test(\"Validar que la ciudad es Guadalajara\", function(){\r",
+							"    var responseJson = pm.response.json()\r",
 							"    pm.expect(responseJson.city).to.include('Guadalajara')\r",
 							"})"
 						],
@@ -67,11 +67,15 @@
 							"    pm.expect(pm.response.code).to.eql(401)\r",
 							"})\r",
 							"\r",
-							"let responseJson = pm.response.json()\r",
-							"\r",
 							"pm.test(\"Prueba negativa, Validar mensaje 'Invalid API key provided.'\", function(){\r",
+							"    var responseJson = pm.response.json()\r",
 							"    pm.expect(responseJson.error.message).to.include('Invalid API key provided.')\r",
-							"})"
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -136,8 +140,6 @@
 							"    pm.expect(responseJson.city_geoname_id).to.be.a('number')\r",
 							"})\r",
 							"\r",
-							"//console.log(typeof(responseJson.city_geoname_id))\r",
-							"\r",
 							"pm.test(\"Validar los codigos de respuesta\", function(){\r",
 							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202])\r",
 							"})\r",
@@ -182,12 +184,18 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"let responseJson = pm.response.json()\r",
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(400)\r",
+							"})\r",
 							"\r",
 							"pm.test(\"Prueba negativa, validar mensaje 'Invalid IP Address'\", function(){\r",
+							"    let responseJson = pm.response.json()\r",
 							"    pm.expect(responseJson.error.details.ip_address).to.include('Invalid IP Address.')\r",
 							"})\r",
-							""
+							"\r",
+							"pm.test(\"Status code name has string 'Bad Request'\", function () {\r",
+							"    pm.response.to.have.status(\"Bad Request\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -227,14 +235,16 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Validar que el tipo de respuesta sea 400\", function(){\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar que el tiempo de respuesta sea menor a 500\", function(){\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(500)\r",
 							"})\r",
 							"\r",
-							"const responseJson = pm.response.json()\r",
-							"\r",
-							"pm.test(\"Prueba negativa, telefono con 10 digitos\", function(){\r",
-							"    pm.expect(responseJson.phone).to.have.length(10)\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
 							"})\r",
 							""
 						],
@@ -246,12 +256,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://phonevalidation.abstractapi.com/v1/?api_key=fd5375a7b73649e2a22d830319356952&phone=525589577956",
+					"raw": "https://{{url_phone}}/v1/?api_key={{api_key_phone}}&phone=523313287949",
 					"protocol": "https",
 					"host": [
-						"phonevalidation",
-						"abstractapi",
-						"com"
+						"{{url_phone}}"
 					],
 					"path": [
 						"v1",
@@ -260,11 +268,11 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "fd5375a7b73649e2a22d830319356952"
+							"value": "{{api_key_phone}}"
 						},
 						{
 							"key": "phone",
-							"value": "525589577956"
+							"value": "523313287949"
 						}
 					]
 				}
@@ -278,12 +286,18 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var responseJson = pm.response.json()\r",
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
 							"\r",
 							"pm.test(\"Prueba negativa, telefono sin lada no debe ser valido\", function(){\r",
+							"    var responseJson = pm.response.json()\r",
 							"    pm.expect(responseJson.valid).to.be.equal(false)\r",
 							"})\r",
-							""
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})"
 						],
 						"type": "text/javascript"
 					}
@@ -293,12 +307,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://phonevalidation.abstractapi.com/v1/?api_key=fd5375a7b73649e2a22d830319356952&phone=5589577956",
+					"raw": "https://{{url_phone}}/v1/?api_key={{api_key_phone}}&phone=89577956",
 					"protocol": "https",
 					"host": [
-						"phonevalidation",
-						"abstractapi",
-						"com"
+						"{{url_phone}}"
 					],
 					"path": [
 						"v1",
@@ -307,11 +319,11 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "fd5375a7b73649e2a22d830319356952"
+							"value": "{{api_key_phone}}"
 						},
 						{
 							"key": "phone",
-							"value": "5589577956"
+							"value": "89577956"
 						}
 					]
 				}
@@ -330,10 +342,14 @@
 							"    pm.expect(pm.response.code).to.eql(200)\r",
 							"})\r",
 							"\r",
-							"pm.test(\"Prueba negativa, codigo de respuesta 201\", function(){\r",
-							"    pm.response.to.have.status(201)\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
 							"})\r",
 							"\r",
+							"pm.test(\"Validar campo deliverability igual a:'DELIVERABLE'\", function(){\r",
+							"    var responseJson = pm.response.json()\r",
+							"    pm.expect(responseJson.deliverability).to.include('DELIVERABLE')\r",
+							"})\r",
 							""
 						],
 						"type": "text/javascript"
@@ -344,12 +360,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://emailvalidation.abstractapi.com/v1/?api_key=aa0b674000bf43f4865c82dc4384e10f&email=javirubio_45@hotmail.com",
+					"raw": "https://{{url_email}}/v1/?api_key={{api_key_email}}&email=javirubio_45@hotmail.com",
 					"protocol": "https",
 					"host": [
-						"emailvalidation",
-						"abstractapi",
-						"com"
+						"{{url_email}}"
 					],
 					"path": [
 						"v1",
@@ -358,7 +372,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "aa0b674000bf43f4865c82dc4384e10f"
+							"value": "{{api_key_email}}"
 						},
 						{
 							"key": "email",
@@ -376,9 +390,16 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var responseJson = pm.response.json()\r",
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
 							"\r",
 							"pm.test(\"Prueba negativa, correo debe ser 'Undeliverable'\", function(){\r",
+							"    var responseJson = pm.response.json()\r",
 							"    pm.expect(responseJson.deliverability).to.be.equal(\"UNDELIVERABLE\")\r",
 							"})\r",
 							"\r",
@@ -392,12 +413,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://emailvalidation.abstractapi.com/v1/?api_key=aa0b674000bf43f4865c82dc4384e10f&email=correo",
+					"raw": "https://{{url_email}}/v1/?api_key={{api_key_email}}&email=correo",
 					"protocol": "https",
 					"host": [
-						"emailvalidation",
-						"abstractapi",
-						"com"
+						"{{url_email}}"
 					],
 					"path": [
 						"v1",
@@ -406,7 +425,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "aa0b674000bf43f4865c82dc4384e10f"
+							"value": "{{api_key_email}}"
 						},
 						{
 							"key": "email",
