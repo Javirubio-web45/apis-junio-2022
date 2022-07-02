@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.9.5'
 }
 
 group 'org.example'
@@ -14,8 +15,23 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
     testImplementation 'io.rest-assured:rest-assured:5.1.1'
+    testImplementation 'io.rest-assured:json-path:4.4.0'
+    testImplementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+
+    //dependencias para generar el reporte
+    testImplementation 'io.qameta.allure:allure-java-commons:2.13.9'
+    testImplementation 'io.qameta.allure:allure-junit5:2.13.1'
+    implementation 'io.qameta.allure:allure-rest-assured:2.13.9'
+
+    //por si llega a fallar
+    testImplementation 'org.slf4j:slf4j-simple:1.7.36'
+
 }
 
 test {
     useJUnitPlatform()
+}
+
+configurations {
+    testCompile
 }

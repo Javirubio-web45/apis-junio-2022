@@ -24,9 +24,16 @@
 							"pm.environment.set(\"id\",messageString.split(',')[0]);\r",
 							"\r",
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.response.to.have.status(200)\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
 							"})\r",
 							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
 							"\r",
 							""
 						],
@@ -77,8 +84,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.response.to.have.status(200)\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
 							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
 							"\r",
 							"const responJson = pm.response.json()\r",
 							"console.log(\"Pet ID: \"+ responJson.id)"
@@ -270,8 +285,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.response.to.have.status(200)\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
 							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
 							"\r",
 							"var responseJson = pm.response.json()\r",
 							"\r",
@@ -319,8 +342,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.response.to.have.status(200)\r",
-							"})"
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -351,9 +382,17 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Validar que no se encuentre el ID de la mascota\", function(){\r",
-							"    pm.response.to.have.status(404)\r",
-							"})"
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}

@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"37fa45b10cf8f00e0072894e157de69c","name":"eComerce","statistic":{"failed":0,"broken":0,"skipped":0,"passed":22,"unknown":0,"total":22}},{"uid":"a5dba15b86d36bc89ffd74ce035939c9","name":"ejemplo_test_api","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}

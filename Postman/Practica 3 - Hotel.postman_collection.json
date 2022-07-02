@@ -68,9 +68,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(200);   \r",
-							"});\r",
-							""
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -100,9 +107,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(200);   \r",
-							"});\r",
-							""
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -142,9 +156,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(200);   \r",
-							"});\r",
-							""
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -184,9 +205,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(200);   \r",
-							"});\r",
-							""
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -217,9 +245,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(200);   \r",
-							"});\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
 							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
 							"const responseJson = pm.response.json()\r",
 							"console.log(responseJson.bookingid)\r",
 							"pm.environment.set(\"id\", responseJson.bookingid)"
@@ -267,9 +302,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(201);   \r",
-							"});\r",
-							""
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -315,9 +357,16 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(201);   \r",
-							"});\r",
-							""
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -363,7 +412,15 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
-							"    pm.expect(pm.response.code).to.eql(201);   \r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
 							"});\r",
 							"\r",
 							"console.log(\"Response:\", pm.response)"

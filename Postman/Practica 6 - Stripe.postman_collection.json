@@ -8,6 +8,27 @@
 	"item": [
 		{
 			"name": "Test 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -34,12 +55,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://api.stripe.com/v1/customers?email=corporate@way2automation.com&name=Raman Arora&description=This is a new test customer\n",
+					"raw": "https://{{url_base}}/v1/customers?email=corporate@way2automation.com&name=Raman Arora&description=This is a new test customer\n",
 					"protocol": "https",
 					"host": [
-						"api",
-						"stripe",
-						"com"
+						"{{url_base}}"
 					],
 					"path": [
 						"v1",
@@ -64,7 +83,28 @@
 			"response": []
 		},
 		{
-			"name": "https://api.stripe.com/v1/balance",
+			"name": "Test 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar el codigo de respuesta\", function(){\r",
+							"    pm.expect(pm.response.code).to.eql(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Validar que hay un body response\", function(){\r",
+							"    pm.response.to.be.withBody;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "basic",
